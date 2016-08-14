@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Файлообмінник fshare.skop.in.ua</title>
+    <link rel='stylesheet' href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="icon" href="img/main.png" type="image/png">
+	<link rel="shortcut icon" href="img/main.png" type="image/png">
+</head>
+<body>
+<div class="main-container">
+	<div class="bar">
+		<div class="upload" >
+			<form id="upload" method="post" action="upload.php" enctype="multipart/form-data">
+				<div id="drop">
+					<b>Дропай сюда! :D</b>
+					<a onclick="$(this).parent().find('input').click();">Завантажити</a>
+					<input type="file" name="upl" multiple />
+				</div>
+				<ul>
+					<!-- Файлы будут загружаться здесь -->
+				</ul>
+			</form>
+		</div>
+		<div id="service" class="service">
+
+		</div>
+	</div>
+	<div class="body">
+		<div class="list">
+			<div class="list-head">
+				<span>Файл</span>
+				<span>Посилання</span>
+			</div>
+			<div id="list-container">
+
+			</div>
+			<div class="list-footer">
+				<span>Хост fshare.skop.in.ua не несе жодної відповідальності за вміст контенту, розміщеного користувачами!</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="js/jquery.knob.js"></script>
+<script src="js/jquery.ui.widget.js"></script>
+<script src="js/jquery.fileupload.js"></script>
+<script src="js/app.js"></script>
+
+<script id="upload-li-tpl" type="text/html">
+	<li class="working">
+		<input type="text" value="0" data-width="40" data-height="40" data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" />
+		<p>{{name}}<i>{{size}}</i></p><span></span>
+	</li>
+</script>
+<script id="list-item-tpl" type="text/html">
+	<div class="list-item" id="file-{{id}}">
+		<div class="item-container">
+			<div class="item-info">
+				<p>{{name}}</p>
+				<small><i>Розмір</i> {{size}}</small><span><i>Завантажено</i> {{date}}</span>
+			</div>
+			<div class="item-link">
+				<span><i><small>http://</small></i>u.skop.in.ua?P={{link}}</span>
+			</div>
+			<div class="item-img-cont">
+				<div class="item-img">
+					<a href="http://u.skop.in.ua?p={{link}}" target="_blank">
+						<img src="/img/down.png" alt="Скачати" title="Скачати">
+					</a>
+				</div>
+				<div class="item-img">
+					{{userImg}}
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script id="user-img-tpl" type="text/html">
+    <img src="/img/user.png">
+</script>
+<script id="detail-tpl" type="text/html">
+	<div class="info_dash hide" id="detail-{{id}}">
+		<div class="detail-head">
+			<p>Детально:</p>
+		</div>
+		<div class="detail-data">
+			<span><i class="fa fa-external-link fa-fw"></i> Ідентифікатор файла: {{link}}</span>
+			<span><i class="fa fa-file-o fa-fw"></i> Ім`я: {{name}}</span>
+			<span><i class="fa fa-hdd-o fa-fw"></i> Розмір: {{size}}</span>
+			<span><i class="fa fa-download fa-fw"></i> Скачано: {{downloads}} раз</span>
+			<span><i class="fa fa-calendar fa-fw"></i> Завантажено: {{date}}</span>
+			<span><i class="fa fa-user fa-fw"></i> Користувач: {{user}}</span>
+			<span><i class="fa fa-bullhorn fa-fw"></i> Доступ: {{status}}</span>
+		</div>
+		<div class="detail-control {{control}}" id="control-{{id}}">
+			<img height="30" id="public" src="img/public.png">
+			<img height="30" id="registered" src="img/regin.png">
+			<img height="30" id="private" src="img/privat.png">
+			<img height="30" id="delete" src="img/del.png">
+		</div>
+        <div class="control">
+            <button onclick="profileShow()">Назад</button>
+            <a href="http://u.skop.in.ua?p={{link}}" target="_blank">Скачати</a>
+        </div>
+	</div>
+</script>
+<script id="login-tpl" type="text/html">
+	<div class="login hide" id="login">
+		<form onsubmit="loginAction(this)">
+			<p>Вхід:</p>
+			<input name="login" placeholder="Логін"  type="text"><br>
+			<input name="password" placeholder="Пароль" type="password"><br>
+			<div class="control">
+				<button type="submit">Увійти</button>
+				<a onClick="registrationShow()">Реєстрація</a>
+			</div>
+		</form>
+	</div>
+</script>
+<script id="profile-tpl" type="text/html">
+	<div class="profile hide" id="profile">
+		<p>Привіт, {{user_login}}</p><br>
+        <div class="control">
+            <button onClick="logoutAction()">Вийти</button>
+        </div>
+	</div>
+</script>
+<script id="registration-tpl" type="text/html">
+	<div class="registration hide" id="registration">
+
+	</div>
+</script>
+
+</body>
+</html>
