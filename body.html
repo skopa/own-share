@@ -131,8 +131,17 @@
 	</div>
 </script>
 <script id="registration-tpl" type="text/html">
-	<div class="registration hide" id="registration">
-
+	<div class="login hide" id="registration">
+        <form onsubmit="registrateAction(this)" method="POST" >
+            <p>Реєстрація:</p>
+            <input required placeholder="Логін" name="login" type="text"><br>
+            <input required placeholder="e-mail" name="email" type="email"><br>
+            <input required placeholder="Пароль" name="password" type="password"><br>
+            <div class="control">
+                <button type="submit">Зареєструватися</button>
+                <a onClick="profileShow()">Вхід</a>
+            </div>
+        </form>
 	</div>
 </script>
 
