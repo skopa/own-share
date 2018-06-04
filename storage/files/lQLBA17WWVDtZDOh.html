@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Data </title>
+	</head>
+	<body>
+	<button onclick ="step('http://tml.skop.in.ua/log/log_gues_lkjdfs754jhd.html')">Show Data</button>
+	<p id="demo"></p>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script>
+	function step(ur) { 
+		var data = " ";
+		 $.ajax({ 
+		  url: ur, 
+		 cache: false, 
+		 success: function(html){ 
+		   data = html; 
+		   } 
+		  });
+			$("#demo").html(data);
+		
+		var start = 1, end = 3, showData = " ", len = data.leght;//
+		document.write(data);
+		//for(start; start <= len; start++){}
+		}
+ </script>
+ 	</body>
+</html>

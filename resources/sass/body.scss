@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: url(/img/bg.png) repeat;;
+}
+
+input {
+  outline: none;
+}
+
+body {
+  font-family: 'PT Sans Narrow', sans-serif;
+  color: #ffffff;
+  width: 100%;
+  margin: 0 auto;
+
+  .main-container {
+    display: flex;
+    height: auto;
+    overflow: hidden;
+    padding: 10px;
+
+    .bar {
+      min-width: 230px;
+      padding: 10px;
+    }
+
+    .body {
+      width: calc(100% - 270px);
+      padding: 10px;
+    }
+  }
+
+  section, footer, header, aside {
+    display: block;
+  }
+
+}

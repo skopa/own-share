@@ -1,0 +1,79 @@
+#service {
+
+  .detail {
+    & > div {
+      border-bottom: 1px solid #444;
+
+      &:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+    }
+
+    .head {
+      border-top: none;
+      overflow: hidden;
+      border-radius: 2px 2px 0 0;
+      background-color: #044567;
+      width: 100%;
+
+      p {
+        margin: 7px 10px;
+      }
+    }
+
+    .data {
+      padding: 2px 0;
+
+      span {
+        display: block;
+        margin: 2px 3px;
+        max-width: 250px;
+      }
+    }
+
+    .control {
+      padding: 5px 0;
+    }
+
+  }
+
+  .control {
+    overflow: hidden;
+
+    .link {
+      float: right;
+      margin-top: 2px;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+#service .login, #service .registration, .share {
+  form {
+    overflow: hidden;
+
+    .link {
+      float: right;
+    }
+
+    padding: 0 2px;
+    margin: 0 -2px;
+
+    input {
+      color: #fff;
+      background-color: #535353;
+      border: none;
+      border-radius: 2px;
+      width: 100%;
+      height: 27px;
+      font-weight: bold;
+      margin: 5px auto 12px;
+      text-align: center;
+    }
+  }
+}

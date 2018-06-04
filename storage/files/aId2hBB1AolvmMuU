@@ -1,0 +1,6 @@
+sent [CHAP Challenge id=0x6a <d8cf5e19b148ba6521bde50b276d0830>, name = "pptpd"]
+
+rcvd [CHAP Response id=0x6a <cae47d7d55c6444fbfbf40e6103a184a000000000000000001ec1438ec7e142b7c3b5cca266b4c94999215b41ad60ec600>, name = "Stepan"]
+
+sent [CHAP Success id=0x6a "S=0AA871461D433F31D6303D0352DE49B8A3C4E1CA M=Access granted"]
+

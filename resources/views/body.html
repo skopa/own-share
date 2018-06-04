@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Обмінюватись інфомацією просто. Просто поділись посиланням :)">
+    <title>Файлообмінник fshare.skop.in.ua</title>
+    <link rel="icon" href="/img/main.png" type="image/png">
+    <link rel="shortcut icon" href="/img/main.png" type="image/png">
+    <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+</head>
+<body>
+<div class="modal" id="modal-container"></div>
+<div class="main-container">
+    <div class="bar">
+        <div class="upload share">
+            <form id="upload" method="post" action="/api/resources/files" enctype="multipart/form-data">
+                <div id="drop">
+                    <b>Дропай сюда! :D</b>
+                    <a class="btn" onclick="$(this).parent().find('input').click();">Завантажити</a>
+                    <input type="file" name="file" multiple/>
+                </div>
+            </form>
+
+            <ul id="upload-list"></ul>
+
+            <form id="share" method="post" action="/api/resources/links">
+                <div class="link">
+                    <input type="text" name="link" placeholder="Посилання.." required>
+                    <button class="btn" type="submit">Поділитись</button>
+                </div>
+            </form>
+        </div>
+        <div id="service" class="service"></div>
+    </div>
+    <div class="body">
+        <div id="list">
+            <div class="head">
+                <span class="name">Файл</span>
+                <span class="link">Посилання</span>
+            </div>
+            <div class="container" id="list-container"></div>
+            <div class="footer">
+                <p>Хост fshare.skop.in.ua не несе жодної відповідальності за вміст контенту, розміщеного
+                    користувачами!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script src="/js/jquery.min.js"></script>-->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--<script async src="/js/jquery.knob.min.js"></script>-->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
+<!--<script async src="/js/jquery.ui.widget.min.js"></script>-->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<!--<script async src="/js/jquery.fileupload.min.js"></script>-->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.21.0/js/jquery.fileupload.min.js"></script>
+<script defer src="/js/app.min.js"></script>
+
+<script id="upload-li-tpl" type="text/html">
+    <li class="working">
+        <input type="text" value="0" data-width="40" data-height="40" data-fgColor="#055C8B" data-readOnly="1"
+               data-bgColor="#3e4043" title=""/>
+        <p>{{name}}<span class="size">{{size}}</span></p><span class="control"></span>
+    </li>
+</script>
+<script id="list-item-tpl" type="text/html">
+    <div class="item" data-id="{{id}}">
+        <div class="info">
+            {{name}}
+            <div class="detail">
+                <span class="size">Розмір</span> {{size_string}}
+                <span class="brake"></span>
+                <span class="at">Завантажено</span> {{created_at}}
+            </div>
+        </div>
+        <div class="link">
+            <span class="url">fshare.skop.in.ua</span>/{{type_string}}/{{identity}}
+        </div>
+        <div class="action">
+            <a class="icon {{type_string}}" target="_blank" title="Завантажити"
+               href="/{{type_string}}/{{identity}}"></a>
+            <span class="icon user {{control}}" title="Мій файл"></span>
+        </div>
+    </div>
+</script>
+<script id="detail-tpl" type="text/html">
+    <div class="detail hide" id="detail">
+        <div class="head">
+            <p>Детально:</p>
+        </div>
+        <div class="data">
+            <span><i class="fa fa-external-link fa-fw"></i> Ідентифікатор файла: {{identity}}</span>
+            <span><i class="fa fa-file-o fa-fw"></i> Ім`я: {{name}}</span>
+            <span><i class="fa fa-hdd-o fa-fw"></i> Розмір: {{size_string}}</span>
+            <span><i class="fa fa-download fa-fw"></i> Скачано: {{reviews_count}} раз</span>
+            <span><i class="fa fa-calendar fa-fw"></i> Завантажено: {{created_at}}</span>
+            <span><i class="fa fa-user fa-fw"></i> Користувач: {{user_string}}</span>
+            <span><i class="fa fa-bullhorn fa-fw"></i> Доступ: {{status_string}}</span>
+        </div>
+        <div class="control {{control}}" data-id="{{id}}">
+            <span title="Публічний доступ" class="icon public {{access.public}}" rel="update"
+                  data-is_public="1" data-is_private="0"></span>
+            <span title="Для зареєстрованих" class="icon registered {{access.registered}}" rel="update"
+                  data-is_public="1" data-is_private="1"></span>
+            <span title="Тільки для мене" class="icon private {{access.private}}" rel="update"
+                  data-is_public="0" data-is_private="1"></span>
+            <span title="Видалити" rel="delete" class="icon delete"></span>
+        </div>
+        <div class="control">
+            <button class="btn" rel="back">Назад</button>
+            <a class="link" href="http://fshare.skop.in.ua/{{type_string}}/{{identity}}" target="_blank">Скачати</a>
+        </div>
+    </div>
+</script>
+
+<script id="login-tpl" type="text/html">
+    <div class="login hide" id="login">
+        <form>
+            <p>Вхід:</p>
+            <input name="username" placeholder="Логін" type="text" required><br>
+            <input name="password" placeholder="Пароль" type="password" required><br>
+            <div class="status"></div>
+            <div class="control">
+                <button class="btn" type="submit">Увійти</button>
+                <a class="link" rel="registration">Реєстрація</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script id="profile-tpl" type="text/html">
+    <div class="profile hide" id="profile">
+        <p>Привіт, {{username}}</p><br>
+        <div class="control">
+            <button class="btn" rel="logout">Вийти</button>
+        </div>
+    </div>
+</script>
+
+<script id="modal-tpl" type="text/html">
+    <div class="modal">
+        <div class="text">
+            <p>{{text}}</p>
+        </div>
+        <div class="control">
+            <button class="btn" rel="back">Закрити</button>
+        </div>
+    </div>
+</script>
+
+<script id="registration-tpl" type="text/html">
+    <div class="registration hide" id="registration">
+        <form method="POST">
+            <p>Реєстрація:</p>
+            <input required placeholder="Логін" name="username" type="text"><br>
+            <input required placeholder="e-mail" name="email" type="email"><br>
+            <input required placeholder="Пароль" name="password" type="password"><br>
+            <div class="control">
+                <button class="btn" type="submit">Зареєструватися</button>
+                <a class="link" rel="login">Вхід</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<noscript id="deferred-styles">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+</noscript>
+<script>
+    var loadDeferredStyles = function () {
+        var addStylesNode = document.getElementById("deferred-styles");
+        var replacement = document.createElement("div");
+        replacement.innerHTML = addStylesNode.textContent;
+        document.body.appendChild(replacement);
+        addStylesNode.parentElement.removeChild(addStylesNode);
+    };
+    var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    if (raf) raf(function () {
+        window.setTimeout(loadDeferredStyles, 0);
+    });
+    else window.addEventListener('load', loadDeferredStyles);
+</script>
+
+</body>
+</html>

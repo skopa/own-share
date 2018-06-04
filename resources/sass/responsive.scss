@@ -1,0 +1,177 @@
+@media (min-width: 1100px) {
+  body {
+    .main-container {
+      width: 1000px;
+      margin: 0 auto;
+    }
+  }
+
+  #list .item .info {
+    //width: 60%;
+  }
+
+}
+
+@media (max-width: 1000px) {
+  #list .item .info .detail {
+    .size, .at {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 922px) {
+  #list {
+    .head {
+      .name {
+        width: 100%;
+      }
+      .link {
+        display: none;
+      }
+    }
+
+    .item {
+      flex-direction: column;
+      padding-bottom: 7px;
+
+      .info, .link {
+        width: calc(100% - 90px);
+        padding-left: 5px;
+
+        .detail {
+          .size, .at {
+            display: inline;
+          }
+        }
+      }
+
+      .action {
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+
+    .main-container {
+      display: block;
+      padding: 5px;
+
+      .body {
+        width: auto;
+      }
+    }
+  }
+
+  #service {
+    margin-bottom: 0;
+  }
+
+  #drop .btn {
+    display: block;
+    width: 120px;
+    margin: 12px auto 0;
+  }
+
+  #list {
+    .head {
+      .name, .link{
+        width: 100%;
+        display: block;
+      }
+    }
+
+    .item {
+      flex-direction: row;
+      padding-bottom: 2px;
+
+      .info .detail {
+        .size, .at {
+          display: none;
+        }
+      }
+
+      .info {
+        width: calc(90% - 90px);
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  #drop {
+    border: none;
+    padding: 0;
+    border-radius: 3px;
+
+    b {
+      display: none;
+    }
+
+    .btn {
+      margin: 0;
+      width: 100%;
+      padding: 12px 0;
+    }
+  }
+
+  #list {
+    .head {
+      .name {
+        width: 100%;
+      }
+      .link {
+        display: none;
+      }
+    }
+
+    .item {
+      flex-direction: column;
+      padding-bottom: 7px;
+
+      &:hover {
+        background-color: transparent;
+      }
+
+      &.selected {
+        background-color: rgba(230, 230, 230, 0.15);
+      }
+
+      .info .detail {
+        .brake {
+          margin-left: 15px;
+        }
+
+        .size, .at {
+          display: inline;
+        }
+      }
+
+      .info {
+        width: calc(100% - 90px);
+      }
+
+      .action {
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 422px) {
+  #list .item .info .detail {
+    .brake {
+      margin-left: 35px;
+    }
+
+    .size, .at {
+      display: none;
+    }
+  }
+}
