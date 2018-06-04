@@ -17,10 +17,6 @@ $router->get('/', function () use ($router) {
     return file_get_contents(resource_path('views/body.html'));
 });
 
-$router->get('v', function (){
-    return phpinfo();
-});
-
 $router->get('/{type:[f,l,F,L]}/{identity}', 'ResourcesController@get');
 
 $router->group(['prefix' => 'api/'], function () use ($router) {
